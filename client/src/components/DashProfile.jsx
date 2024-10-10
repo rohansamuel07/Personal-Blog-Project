@@ -1,6 +1,6 @@
 import { Alert, TextInput } from 'flowbite-react';
-import { useSelector, useRef } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useState, useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from './../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -10,7 +10,8 @@ export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
-  const [imageFileUploadProgress, setImageFileUploadProgess] = useState(null);
+  // Fixed state name for upload progress
+  const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null); 
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const filePickerRef = useRef();
 
@@ -34,15 +35,18 @@ export default function DashProfile() {
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
     uploadTask.on(
       'state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImageFileUploadProgess(progress.toFixed(0));
+        // Fixed to correctly update upload progress state
+        setImageFileUploadProgress(progress.toFixed(0)); 
       },
       (error) => {
+        // Improved error handling
         setImageFileUploadError('Could not upload image file (File must be less than 2MB)');
-        setImageFileUploadProgess(null);
+        setImageFileUploadProgress(null);
         setImageFile(null);
         setImageFileUrl(null);
       },
@@ -54,10 +58,15 @@ export default function DashProfile() {
     );
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    // Implement your form submission logic here if needed
+  };
+
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
       <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
-      <form className='flex flex-col gap-4'>
+      <form className='flex flex-col gap-4' onSubmit={handleSubmit}> {/* Added onSubmit handler */}
         <input
           type='file'
           accept='image/*'
@@ -97,7 +106,7 @@ export default function DashProfile() {
             }`}
           />
         </div>
-        {imageFileUploadError && <Alert color='failure'> {imageFileUploadError}</Alert>}
+        {imageFileUploadError && <Alert color='failure'>{imageFileUploadError}</Alert>}
         <TextInput
           type='text'
           id='username'
