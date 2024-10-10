@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useEffect, useState } from 'react';
+import { Avatar, Dropdown } from 'flowbite-react';
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -123,30 +124,29 @@ export default function Header() {
         >
           {theme === 'light' ? <FaSun className="text-yellow-500" /> : <FaMoon className="text-gray-300" />}
         </button>
+
         {currentUser ? (
-          <div className="relative">
-            <img
-              alt="user"
-              src={currentUser.profilePicture}
-              className="w-10 h-10 rounded-full cursor-pointer"
-            />
-            <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-              <div className="p-4">
-                <p className="text-sm dark:text-gray-300">@{currentUser.username}</p>
-                <p className="text-sm font-medium truncate dark:text-gray-300">
-                  {currentUser.email}
-                </p>
-              </div>
-              <div className="border-t">
-                <Link to="/dashboard?tab=profile" className="block p-4 hover:bg-gray-100 dark:hover:bg-gray-700">
-                  Profile
-                </Link>
-                <button onClick={handleSignout} className="block p-4 w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700">
-                  Sign out
-                </button>
-              </div>
-            </div>
-          </div>
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <div className="rounded-full overflow-hidden">
+                <Avatar alt='user' img={currentUser.profilePicture} />
+                </div>
+            }
+          >
+            <Dropdown.Header>
+              <span className='block text-sm'>@{currentUser.username}</span>
+              <span className='block text-sm font-medium truncate'>
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to={'/dashboard?tab=profile'}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+          </Dropdown>
         ) : (
           <Link to="/sign-in">
             <button className="px-4 py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg">
