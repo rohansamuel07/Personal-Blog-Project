@@ -62,7 +62,7 @@ export default function Header() {
         </span>
         Blog
       </Link>
-      
+
       {/* Search Bar for Larger Screens */}
       <form onSubmit={handleSubmit} className={`hidden lg:flex items-center`}>
         <div className="relative">
@@ -91,7 +91,7 @@ export default function Header() {
       </div>
 
       {/* User Actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4"> {/* Increased gap here for better spacing */}
         {/* Search Bar Icon for Small Screens */}
         <button
           className="w-10 h-10 lg:hidden flex items-center justify-center"
@@ -119,10 +119,14 @@ export default function Header() {
         )}
 
         <button
-          className="w-12 h-10 hidden sm:flex items-center justify-center"
+          className="w-10 h-10 hidden sm:flex items-center justify-center rounded-full border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 transition duration-200"
           onClick={() => dispatch(toggleTheme())}
         >
-          {theme === 'light' ? <FaSun className="text-yellow-500" /> : <FaMoon className="text-gray-300" />}
+          {theme === 'light' ? (
+            <FaSun className="text-yellow-500 text-xl" />
+          ) : (
+            <FaMoon className="text-gray-300 text-xl" />
+          )}
         </button>
 
         {currentUser ? (
@@ -132,7 +136,7 @@ export default function Header() {
             label={
               <div className="rounded-full overflow-hidden">
                 <Avatar alt='user' img={currentUser.profilePicture} />
-                </div>
+              </div>
             }
           >
             <Dropdown.Header>
