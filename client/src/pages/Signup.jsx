@@ -1,4 +1,3 @@
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -44,7 +43,7 @@ export default function SignUp() {
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         {/* left */}
         <div className='flex-1'>
-          <Link to='/' className='font-bold dark:text-white text-4xl'>
+          <Link to='/' className='font-bold text-4xl'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
               Rohan's
             </span>
@@ -58,57 +57,60 @@ export default function SignUp() {
         <div className='flex-1'>
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
-              <Label value='Your username' />
-              <TextInput
+              <label htmlFor='username' className='block text-sm font-medium text-gray-700'>Your username</label>
+              <input
                 type='text'
                 placeholder='Username'
                 id='username'
                 onChange={handleChange}
+                className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500'
               />
             </div>
             <div>
-              <Label value='Your email' />
-              <TextInput
+              <label htmlFor='email' className='block text-sm font-medium text-gray-700'>Your email</label>
+              <input
                 type='email'
                 placeholder='name@company.com'
                 id='email'
                 onChange={handleChange}
+                className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500'
               />
             </div>
             <div>
-              <Label value='Your password' />
-              <TextInput
+              <label htmlFor='password' className='block text-sm font-medium text-gray-700'>Your password</label>
+              <input
                 type='password'
                 placeholder='Password'
                 id='password'
                 onChange={handleChange}
+                className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500'
               />
             </div>
-            <Button
-              gradientDuoTone='purpleToPink'
+            <button
               type='submit'
               disabled={loading}
+              className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500`}
             >
               {loading ? (
                 <>
-                  <Spinner size='sm' />
+                  <span className='loader'></span>
                   <span className='pl-3'>Loading...</span>
                 </>
               ) : (
                 'Sign Up'
               )}
-            </Button>
+            </button>
           </form>
           <div className='flex gap-2 text-sm mt-5'>
             <span>Have an account?</span>
-            <Link to='/sign-in' className='text-blue-500'>
+            <Link to='/sign-in' className='text-blue-500 hover:underline'>
               Sign In
             </Link>
           </div>
           {errorMessage && (
-            <Alert className='mt-5' color='failure'>
+            <div className='mt-5 p-4 bg-red-100 text-red-700 rounded'>
               {errorMessage}
-            </Alert>
+            </div>
           )}
         </div>
       </div>
