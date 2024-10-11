@@ -15,10 +15,10 @@ import {
   deleteUserFailure,
   signoutSuccess,
 } from '../redux/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function DashProfile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
@@ -215,9 +215,21 @@ const handleSignout = async () => {
           onChange={handleChange}
         />
         <TextInput type='password' id='password' placeholder='password' onChange={handleChange} />
-        <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded'>
-          Update
+        <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded' disabled= {loading || imageFileUploading}>
+          {loading ? 'Loading...' : 'Upate'}
         </button>
+
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <button
+            type='button'
+            className='w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:from-purple-600 hover:to-pink-600'
+            >
+              Create a post
+            </button>
+          </Link>
+        )}
+
       </form>
       <div className='text-red-500 flex justify-between mt-5'>
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>Delete Account</span>
