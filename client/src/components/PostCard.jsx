@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+
 export default function PostCard({ post }) {
   return (
     <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
@@ -23,11 +23,3 @@ export default function PostCard({ post }) {
     </div>
   );
 }
-PostCard.propTypes = {
-  post: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-  }).isRequired,
-};
