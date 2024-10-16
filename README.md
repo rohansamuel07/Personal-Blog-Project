@@ -29,7 +29,7 @@ npm install
 Start the development server:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Feel free to modify any part of this README to better fit your project's specifics!
